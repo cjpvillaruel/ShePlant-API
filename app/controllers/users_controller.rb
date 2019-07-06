@@ -17,7 +17,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    if params[:firebase_id].present?
+      @user = User.find_by_firebase_id(params[:firebase_id])
+    else 
+      @user = User.find(params[:id])
+    end
     render json: @user
   end
 

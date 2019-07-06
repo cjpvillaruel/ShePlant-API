@@ -28,6 +28,6 @@ class PledgesController < ApplicationController
   
   private
     def pledge_params
-      params.require(:pledge).permit(:title, :description, :duration)
+      params.require(:pledge).permit(:title, :description, :duration, :category)
     end
 end
