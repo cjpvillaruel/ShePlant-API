@@ -16,8 +16,18 @@ class PledgesController < ApplicationController
   end
 
   def show
-    @pledge = Pledge.find(params[:id])
-    render json: @pledge
+    # if  params[:pledge_id].present? && params[:user_id].present?
+    #   @post = Post.order("created_at DESC").where(pledge_id: params[:pledge_id], user_id: params[:user_id])
+    
+      @pledge = Pledge.find(params[:id])
+      render json: @pledge, include: {
+        :posts => {
+          :include => {
+            :user => { :only =>[:first_name, :last_name]}
+          },
+        :only => :content
+        }
+      }
   end
 
   def destroy

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_06_171627) do
+ActiveRecord::Schema.define(version: 2019_07_06_173415) do
 
   create_table "pledges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
@@ -19,6 +19,16 @@ ActiveRecord::Schema.define(version: 2019_07_06_171627) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "category"
+  end
+
+  create_table "posts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.bigint "pledge_id"
+    t.index ["pledge_id"], name: "index_posts_on_pledge_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
   create_table "user_pledges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -39,6 +49,8 @@ ActiveRecord::Schema.define(version: 2019_07_06_171627) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "posts", "pledges"
+  add_foreign_key "posts", "users"
   add_foreign_key "user_pledges", "pledges"
   add_foreign_key "user_pledges", "users"
 end
