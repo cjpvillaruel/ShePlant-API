@@ -10,7 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_06_085147) do
+ActiveRecord::Schema.define(version: 2019_07_06_133147) do
+
+  create_table "pledges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.string "duration"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_pledges", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "pledge_id"
+    t.index ["pledge_id"], name: "index_user_pledges_on_pledge_id"
+    t.index ["user_id"], name: "index_user_pledges_on_user_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "first_name"
@@ -23,4 +38,6 @@ ActiveRecord::Schema.define(version: 2019_07_06_085147) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "user_pledges", "pledges"
+  add_foreign_key "user_pledges", "users"
 end
